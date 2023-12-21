@@ -13,3 +13,19 @@ h1 {
     font-size: 4rem;
     font-weight: 700;
 }
+
+h2 {
+    width: 90%;
+}
+
+p {
+    font-size: 1.2rem;
+}
+
+img {
+    width: 100%;
+}
+
+.news_head i {
+    font-size: 1.5rem;
+}
