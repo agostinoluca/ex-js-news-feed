@@ -20,7 +20,63 @@ Alcune note:
 
 #Tools:
 -console.log();
+-const
 
 */
 
-console.log('Hello World');
+// creo un array di oggetti con i dati forniti, aggiungo gli attributi 'image' e 'alt'
+const articles = [
+{
+    id: 1,
+    title: "Scoperta di una nuova specie di papera di gomma",
+    content: "Un breve articolo sulla recente scoperta di una specie di papera di gomma mai vista prima.",
+    tags: ["geo", "tech"],
+    author: "Diana Rossi",
+    published: "2023-02-11",
+    image: "./assets/img/rubber-duck.jpg",
+    alt: "foto di una papera gigante",
+},
+{
+    id: 2,
+    title: "Esplorando le profondità marine: il mistero degli abissi",
+    content: "Esplorando le profondità marine: il mistero degli abissi.",
+    tags: ["viaggi", "geo"],
+    author: "Fabio Mari",
+    published: "2023-03-14",
+    image: "./assets/img/kitchen-food.jpg",
+    alt: "foto di un tavolo con un coltello, dei pomodori, olio e spezie",
+},
+{
+    id: 3,
+    title: "Viaggio culinario: alla ricerca dei sapori perduti",
+    content: "Esplorazione di tradizioni culinarie dimenticate e la ricerca di sapori autentici.",
+    tags: ["cucina"],
+    author: "Marta Bianchi",
+    published: "2023-04-20",
+    image: "./assets/img/deep-sea.jpg",
+    alt: "foto di coralli marini",
+},
+{
+    id: 4,
+    title: "Arte moderna: oltre i confini convenzionali",
+    content: "Un'analisi delle tendenze e delle sfide nell'arte contemporanea, con interviste a artisti emergenti.",
+    tags: ["arte", "tech"],
+    author: "Gabriele Neri",
+    published: "2023-05-29",
+    image: "./assets/img/modern-art.jpg",
+    alt: "foto di murales in arte moderna",
+},
+];
+
+console.log(articles);
+console.log(articles[3].title, articles[0].content);
+
+// inserisco in una costante il container delle notizie
+
+// con un'iterazione stampo gli articoli in pagina
+
+// con una funzione definisco il markup della news
+    // return del template literal precedentemente preparato
+
+
+
