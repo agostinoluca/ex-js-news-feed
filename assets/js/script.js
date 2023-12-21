@@ -80,61 +80,27 @@ articles.forEach(article => {
     containerEl.insertAdjacentHTML("beforeend", articleMarkup);
 });
 
-
 // con una funzione definisco il markup della news
 function createMarkup(article) {
     // return del template literal precedentemente preparato
     return `
     <div class="container p-3 bg-light mt-4">
         <div class="news_head d-flex justify-content-between">
-            <h2>Scoperta di una nuova specie di papera di gomma</h2>
+            <h2>${article.title}</h2>
             <i class="fa-regular fa-bookmark"></i>
         </div>
         <div class="news_body">
-            <h5>pubblicato da Diana Rossi</h5>
-            <h6>in data 15/01/2023</h6>
-            <p>
-                Un breve articolo sulla recente scoperta di una specie di papera di gomma mai vista prima.
-            </p>
+            <h5>${article.author}</h5>
+            <h6>${article.published}</h6>
+            <p>${article.content}</p>
         </div>
         <div class="news_img d-flex justify-content-center">
-            <img src="./assets/img/rubber-duck.jpg" alt="papera gigante">
+            <img src="${article.image}" alt="${article.alt}">
         </div>
         <div class="news_tags mt-3 d-flex gap-2">
-            <span class="badge text-bg-success p-2 fs-5">geo</span>
-            <span class="badge text-bg-primary  p-2 fs-5 ">tech</span>
+            <span class="badge text-bg-success p-2 fs-5">${article.tags}</span>
         </div>
     </div>
     `
+    // problema imprevisto con i tags
 };
-
-
-
-
-
-
-/* 
-        <div class="container p-3 bg-light mt-4">
-            <div class="news_head d-flex justify-content-between">
-                <h2>Scoperta di una nuova specie di papera di gomma</h2>
-                <i class="fa-regular fa-bookmark"></i>
-            </div>
-            <div class="news_body">
-                <h5>pubblicato da Diana Rossi</h5>
-                <h6>in data 15/01/2023</h6>
-                <p>
-                    Un breve articolo sulla recente scoperta di una specie di papera di gomma mai vista prima.
-                </p>
-            </div>
-            <div class="news_img d-flex justify-content-center">
-                <img src="./assets/img/rubber-duck.jpg" alt="papera gigante">
-            </div>
-            <div class="news_tags mt-3 d-flex gap-2">
-                <span class="badge text-bg-success p-2 fs-5">geo</span>
-                <span class="badge text-bg-primary  p-2 fs-5 ">tech</span>
-            </div>
-        </div>
-*/
-
-
-
