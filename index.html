@@ -25,7 +25,32 @@
 </head>
 
 <body>
+    <header id="site_header">
+        <div class="container text-center p-4 text-light ">
+            <h1>News Feed</h1>
+        </div>
+    </header>
+    <!-- /#site_header -->
 
+    <nav id="site_nav">
+        <div class="container bg-light p-4 d-flex justify-content-between">
+            <div>
+                <span>Filtra per tags:</span>
+                <select name="news_selection" id="news_selection">
+                    <option value="allTags">Tutti i tags</option>
+                </select>
+            </div>
+            <div>
+                <input type="checkbox" name="savedNews" id="savedNews">
+                <span>Solo news salvate</span>
+            </div>
+        </div>
+
+    </nav>
+    <!-- /#site_nav -->
+
+    <main id="site_main"></main>
+    <!-- /#site_main -->
     
     
     <!-- Bootstrap JavaScript Libraries -->
