@@ -40,3 +40,9 @@ img {
 .news_head i {
     font-size: 1.5rem;
 }
+
+.noNews {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 900;
+}

@@ -120,6 +120,8 @@ function createMarkup(article) {
     `
 };
 
+// inserisco una variabile con valore booleano falso
+let newsAvailable = false;
 
 // inserisco il select in una costante
 const news_selection = document.getElementById('news_selection');
@@ -132,6 +134,9 @@ news_selection.addEventListener('change', function(){
 
 	// svuoto l`html del container
 	containerEl.innerHTML = '';
+
+    // richiamo la variabile globale con valore booleano falso
+    newsAvailable = false;
 	
 	// con un for loop creo un box per ogni oggetto della array
 	articles.forEach(article => {
@@ -142,8 +147,21 @@ news_selection.addEventListener('change', function(){
 			// richiamo la funzione per creare i box delle notizie selezionate dal select
 			const articleMarkup = createMarkup(article);
 			containerEl.insertAdjacentHTML("beforeend", articleMarkup);
+
+            // se esistono notizie per il tag selezionato o se rimaniamo su "Tutti i tags", il valore della variabile diventa vera
+            newsAvailable = true;
 		}
 	});
+    
+    // Se nessuna notizia è disponibile, aggiungo la scritta "No News Available"
+	if (!newsAvailable) {
+        // inserisco un template literal preparato in HTML-CSS
+		containerEl.insertAdjacentHTML("beforeend", `
+            <div class="container mt-3 p-0">
+                <span class="noNews">No News Available.</span>
+            </div> 
+        `);
+	}
 	
 });
 
@@ -186,5 +204,3 @@ articles.forEach(article => {
         }
     });
 });
-
-
