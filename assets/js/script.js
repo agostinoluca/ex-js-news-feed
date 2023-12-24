@@ -76,6 +76,12 @@ const articles = [
 // console.log(articles);
 // console.log(articles[3].title, articles[0].content);
 
+// inserisco una variabile con valore booleano falso
+let newsAvailable = false;
+
+// creo un array variabile dove inserirò le news salvate
+let savedNews = [];
+
 // inserisco in una costante il container delle notizie
 const containerEl = document.getElementById('site_main');
 
@@ -91,11 +97,11 @@ function createMarkup(article) {
     // creo un array di stringhe HTML per i badge dei tags, con un operatore ternario coloro i badge in base al testo contenuto
     const tagsMarkup = article.tags.map(tag => `
     <span class="badge ${
-        tag === 'geo' ? 'bg-primary' : 
-        tag === 'tech' ? 'bg-info' : 
-        tag === 'cucina' ? 'bg-success' : 
+        tag === 'geo' ? 'bg-success' : 
+        tag === 'tech' ? 'bg-primary' : 
+        tag === 'cucina' ? 'bg-danger' : 
         tag === 'viaggi' ? 'bg-warning' : 
-        tag === 'arte' ? 'bg-secondary' : 'bg-danger'
+        tag === 'arte' ? 'bg-info' : 'bg-light'
     } p-2 fs-5">${tag}</span>`).join(''); // utilizzo il .join per eliminare le virgole della array generata dal ciclo map
 
     // return del template literal precedentemente creato in HTML/CSS
@@ -103,7 +109,7 @@ function createMarkup(article) {
     <div class="container p-3 bg-light mt-4">
         <div class="news_head d-flex justify-content-between">
             <h2>${article.title}</h2>
-            <i class="fa-regular fa-bookmark"></i>
+            <i class="fa-regular fa-bookmark" data-id="${article.id}"></i>
         </div>
         <div class="news_body">
             <h5>${article.author}</h5>
@@ -119,9 +125,6 @@ function createMarkup(article) {
     </div>
     `
 };
-
-// inserisco una variabile con valore booleano falso
-let newsAvailable = false;
 
 // inserisco il select in una costante
 const news_selection = document.getElementById('news_selection');
