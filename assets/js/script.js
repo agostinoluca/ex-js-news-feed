@@ -21,7 +21,12 @@ Alcune note:
 #Tools:
 -console.log();
 -const
-
+-forEach
+-.insertAdjacentHTML("beforeend",)
+-function
+-append
+-innerHTML , innerText
+-.addEventListener(change)
 */
 
 // creo un array di oggetti con i dati forniti, aggiungo gli attributi 'image' e 'alt'
@@ -68,8 +73,8 @@ const articles = [
 },
 ];
 
-console.log(articles);
-console.log(articles[3].title, articles[0].content);
+// console.log(articles);
+// console.log(articles[3].title, articles[0].content);
 
 // inserisco in una costante il container delle notizie
 const containerEl = document.getElementById('site_main');
@@ -82,7 +87,18 @@ articles.forEach(article => {
 
 // con una funzione definisco il markup della news
 function createMarkup(article) {
-    // return del template literal precedentemente preparato
+    
+    // creo un array di stringhe HTML per i badge dei tags, con un operatore ternario coloro i badge in base al testo contenuto
+    const tagsMarkup = article.tags.map(tag => `
+    <span class="badge ${
+        tag === 'geo' ? 'bg-primary' : 
+        tag === 'tech' ? 'bg-info' : 
+        tag === 'cucina' ? 'bg-success' : 
+        tag === 'viaggi' ? 'bg-warning' : 
+        tag === 'arte' ? 'bg-secondary' : 'bg-danger'
+    } p-2 fs-5">${tag}</span>`).join(''); // utilizzo il .join per eliminare le virgole della array generata dal ciclo map
+
+    // return del template literal precedentemente creato in HTML/CSS
     return `
     <div class="container p-3 bg-light mt-4">
         <div class="news_head d-flex justify-content-between">
@@ -98,9 +114,77 @@ function createMarkup(article) {
             <img src="${article.image}" alt="${article.alt}">
         </div>
         <div class="news_tags mt-3 d-flex gap-2">
-            <span class="badge text-bg-success p-2 fs-5">${article.tags}</span>
+        ${tagsMarkup}
         </div>
     </div>
     `
-    // problema imprevisto con i tags
 };
+
+
+// inserisco il select in una costante
+const news_selection = document.getElementById('news_selection');
+
+// aggiungo un addEventListener('change') al select
+news_selection.addEventListener('change', function(){
+
+	// creo una variabile per leggere la value del select
+	let valueType = news_selection.value;
+
+	// svuoto l`html del container
+	containerEl.innerHTML = '';
+	
+	// con un for loop creo un box per ogni oggetto della array
+	articles.forEach(article => {
+		
+		// la condizione filtra i tags identici al select oppure il campo vuoto dell'opzione "Tutti i tags"
+		if (valueType === '' || article.tags.includes(valueType)) {
+
+			// richiamo la funzione per creare i box delle notizie selezionate dal select
+			const articleMarkup = createMarkup(article);
+			containerEl.insertAdjacentHTML("beforeend", articleMarkup);
+		}
+	});
+	
+});
+
+// creo un array dedicata al menù select
+let optionList = [];
+
+// itero per creare le opzioni
+articles.forEach(article => {
+		
+	// itero attraverso l'array di tag per creare un'opzione separata per ciascun tag
+	article.tags.forEach(tag => {
+		// creo una condizione con valore booleano opposto per stabilire se l`array contiene o meno il tipo di tag 
+		if (!optionList.includes(tag)) {
+			// se non lo contiene pusha nella array l'opzione
+			optionList.push(tag);
+			// creo l'opzione
+			const optionNews = document.createElement("option");
+			// scrivo dentro l'opzione
+			optionNews.innerText = tag;
+			// collego al mio html l'opzione appena creata
+			news_selection.append(optionNews);
+		}
+	});
+	
+    // Aggiungo altri tag che non sono associati a una notizia specifica
+    const additionalTags = ["politica", "sport"];
+
+	// itero attraverso l'array di tag per creare un'opzione separata per ciascun tag
+    additionalTags.forEach(tag => {
+        // se non è già incluso nella array principale di opzioni dinamiche
+        if (!optionList.includes(tag)) {
+            // pusho la nuova opzione
+            optionList.push(tag);
+            // creo l'opzione
+            const optionNews = document.createElement("option");
+            // scrivo dentro l'opzione
+            optionNews.innerText = tag;
+			// collego al mio html l'opzione appena creata
+            news_selection.append(optionNews);
+        }
+    });
+});
+
+
