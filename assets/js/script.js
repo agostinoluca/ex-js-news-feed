@@ -194,25 +194,8 @@ checkBox.addEventListener('change', function() {
     // il checkbox è selezionato
     if (checkBox.checked) {
         console.log('Il checkbox è selezionato!');
-        
-        // nascondi i contenitori delle icone con la classe 'fa-solid'
-        marked.forEach(icon => {
-            if (icon.classList.contains('fa-regular')) {
-                // inserisco in const il container dell'icona
-                const container = icon.parentElement.parentElement;
-                container.classList.add('none');
-            }
-        });
     // il checkbox non è selezionato
     } else {
         console.log('Il checkbox non è selezionato');
-        
-        // rimuovi la classe 'none' da tutti i contenitori delle icone
-        marked.forEach(icon => {
-            // inserisco in const il container dell'icona
-            const container = icon.parentElement.parentElement;
-            // rimuovo la classe 'none'
-            container.classList.remove('none');
-        });
     };
 });
