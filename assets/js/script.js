@@ -1,82 +1,46 @@
-/* 
-Step 1: struttura dei dati.
-Partendo dai dati forniti crea le strutture dati necessarie sfruttando array e oggetti facendo attenzione agli attributi che caratterizzano ciascuna news.
-
-Alcune note:
-●	nel definire una immagine servirà un url e non dimenticare di valorizzare l’attributo alt;
-●	modificare/aggiungere dati a vostro piacimento per arricchire l’esperienza.
-
-
-Step 2 - Stampa dei dati in pagina.
-Stampa in pagina le news del nostro feed utilizzando JavaScript.
-
-Alcune note:
-●	creare un secondo array in cui conservare la lista degli elementi salvati;
-●	per l’icona di salvataggio utilizzare FontAwesome o un semplice file svg;
-●	agganciare l’evento al tasto bookmark;
-●	ogni volta che elimini un elemento dal DOM tutti gli eventi ad esso associati vengono rimossi, trova un modo per riagganciarli;
-●	una volta salvata una news non è più possibile rimuoverla o cliccare nuovamente sull’icona.
-
-
-#Tools:
--console.log();
--const
--forEach
--.insertAdjacentHTML("beforeend",)
--function
--append
--innerHTML , innerText
--.addEventListener(change)
--.addEventListener(click)
--.classList.add/remove/toggle
-*/
-    
 // creo un array di oggetti con i dati forniti, aggiungo gli attributi 'image' e 'alt'
 const articles = [
-{
-    id: 1,
-    title: "Scoperta di una nuova specie di papera di gomma",
-    content: "Un breve articolo sulla recente scoperta di una specie di papera di gomma mai vista prima.",
-    tags: ["geo", "tech"],
-    author: "Diana Rossi",
-    published: "2023-02-11",
-    image: "./assets/img/rubber-duck.jpg",
-    alt: "foto di una papera gigante",
-},
-{
-    id: 2,
-    title: "Viaggio culinario: alla ricerca dei sapori perduti",
-    content: "Esplorazione di tradizioni culinarie dimenticate e la ricerca di sapori autentici.",
-    tags: ["cucina"],
-    author: "Marta Bianchi",
-    published: "2023-04-20",
-    image: "./assets/img/kitchen-food.jpg",
-    alt: "foto di un tavolo con un coltello, dei pomodori, olio e spezie",
-},
-{
-    id: 3,
-    title: "Esplorando le profondità marine: il mistero degli abissi",
-    content: "Esplorando le profondità marine: il mistero degli abissi.",
-    tags: ["viaggi", "geo"],
-    author: "Fabio Mari",
-    published: "2023-03-14",
-    image: "./assets/img/deep-sea.jpg",
-    alt: "foto di coralli marini",    
-},
-{
-    id: 4,
-    title: "Arte moderna: oltre i confini convenzionali",
-    content: "Un'analisi delle tendenze e delle sfide nell'arte contemporanea, con interviste a artisti emergenti.",
-    tags: ["arte", "tech"],
-    author: "Gabriele Neri",
-    published: "2023-05-29",
-    image: "./assets/img/modern-art.jpg",
-    alt: "foto di murales in arte moderna",
-},
+    {
+        id: 1,
+        title: "Scoperta di una nuova specie di papera di gomma",
+        content: "Un breve articolo sulla recente scoperta di una specie di papera di gomma mai vista prima.",
+        tags: ["geo", "tech"],
+        author: "Diana Rossi",
+        published: "2023-02-11",
+        image: "./assets/img/rubber-duck.jpg",
+        alt: "foto di una papera gigante",
+    },
+    {
+        id: 2,
+        title: "Viaggio culinario: alla ricerca dei sapori perduti",
+        content: "Esplorazione di tradizioni culinarie dimenticate e la ricerca di sapori autentici.",
+        tags: ["cucina"],
+        author: "Marta Bianchi",
+        published: "2023-04-20",
+        image: "./assets/img/kitchen-food.jpg",
+        alt: "foto di un tavolo con un coltello, dei pomodori, olio e spezie",
+    },
+    {
+        id: 3,
+        title: "Esplorando le profondità marine: il mistero degli abissi",
+        content: "Esplorando le profondità marine: il mistero degli abissi.",
+        tags: ["viaggi", "geo"],
+        author: "Fabio Mari",
+        published: "2023-03-14",
+        image: "./assets/img/deep-sea.jpg",
+        alt: "foto di coralli marini",    
+    },
+    {
+        id: 4,
+        title: "Arte moderna: oltre i confini convenzionali",
+        content: "Un'analisi delle tendenze e delle sfide nell'arte contemporanea, con interviste a artisti emergenti.",
+        tags: ["arte", "tech"],
+        author: "Gabriele Neri",
+        published: "2023-05-29",
+        image: "./assets/img/modern-art.jpg",
+        alt: "foto di murales in arte moderna",
+    },
 ];
-
-// console.log(articles);
-// console.log(articles[3].title, articles[0].content);
 
 // inserisco una variabile con valore booleano falso
 let newsAvailable = false;
@@ -123,7 +87,7 @@ function createMarkup(article) {
         </div>
         <div class="news_tags mt-3 d-flex gap-2">${tagsMarkup}</div>
     </div>
-    `
+    `;
 };
 
 // inserisco il select in una costante
@@ -153,7 +117,7 @@ news_selection.addEventListener('change', function(){
 
             // se esistono notizie per il tag selezionato o se rimaniamo su "Tutti i tags", il valore della variabile diventa vera
             newsAvailable = true;
-        }
+        };
     });
     
     // se nessuna notizia è disponibile, aggiungo la scritta "No News Available"
@@ -213,15 +177,42 @@ const checkBox = document.getElementById('savedNews');
 // creo una costante per la classe dell'icona del bookmark
 const marked = document.querySelectorAll('.news_head i'); 
 
-// itero su tutte le icone
-marked.forEach(icon => {
-    // aggiungo un addEventListener(click) per modificare le classi dell'icona
-    icon.addEventListener('click', function() {
-        // la consegna non prevede il toggle, mi riservo di modificarlo nel processo
-        icon.classList.toggle('fa-regular');
-        icon.classList.toggle('fa-solid');
+// itero attraverso marked
+marked.forEach(bookmark => {
+    // aggiungo un event listener al click sull'icona
+    bookmark.addEventListener('click', function() {
+        // modifico la classe dell'icona al click su di essa
+        if (bookmark.classList.contains('fa-regular')) {
+            bookmark.classList.remove('fa-regular');
+            bookmark.classList.add('fa-solid');
+        };
     });
 });
 
-
-
+// aggiungi un event listener al checkbox
+checkBox.addEventListener('change', function() {
+    // il checkbox è selezionato
+    if (checkBox.checked) {
+        console.log('Il checkbox è selezionato!');
+        
+        // nascondi i contenitori delle icone con la classe 'fa-solid'
+        marked.forEach(icon => {
+            if (icon.classList.contains('fa-regular')) {
+                // inserisco in const il container dell'icona
+                const container = icon.parentElement.parentElement;
+                container.classList.add('none');
+            }
+        });
+    // il checkbox non è selezionato
+    } else {
+        console.log('Il checkbox non è selezionato');
+        
+        // rimuovi la classe 'none' da tutti i contenitori delle icone
+        marked.forEach(icon => {
+            // inserisco in const il container dell'icona
+            const container = icon.parentElement.parentElement;
+            // rimuovo la classe 'none'
+            container.classList.remove('none');
+        });
+    };
+});
