@@ -1,4 +1,4 @@
-// creo un array di oggetti con i dati forniti, aggiungo gli attributi 'image' e 'alt'
+// creo un array di oggetti con i dati forniti, aggiungo gli attributi 'image', 'alt' e 'saved'
 const articles = [
     {
         id: 1,
@@ -9,6 +9,7 @@ const articles = [
         published: "2023-02-11",
         image: "./assets/img/rubber-duck.jpg",
         alt: "foto di una papera gigante",
+        saved: false
     },
     {
         id: 2,
@@ -19,6 +20,7 @@ const articles = [
         published: "2023-04-20",
         image: "./assets/img/kitchen-food.jpg",
         alt: "foto di un tavolo con un coltello, dei pomodori, olio e spezie",
+        saved: false
     },
     {
         id: 3,
@@ -29,6 +31,7 @@ const articles = [
         published: "2023-03-14",
         image: "./assets/img/deep-sea.jpg",
         alt: "foto di coralli marini",    
+        saved: false
     },
     {
         id: 4,
@@ -39,59 +42,50 @@ const articles = [
         published: "2023-05-29",
         image: "./assets/img/modern-art.jpg",
         alt: "foto di murales in arte moderna",
+        saved: false
     },
 ];
 
 // inserisco una variabile con valore booleano falso
 let newsAvailable = false;
 
-// creo un array variabile dove inserirò le news salvate
-let savedNews = [];
-
 // inserisco in una costante il container delle notizie
 const containerEl = document.getElementById('site_main');
 
+// inserisco il select in una costante
+const news_selection = document.getElementById('news_selection');
+
+// inserisco in costante il check-box
+const checkBox = document.getElementById('savedNews');
+
+// creo un array dedicata al menù select
+const optionList = [];
+
 // con un'iterazione stampo gli articoli in pagina
 articles.forEach(article => {
+    // richiamo la funzione per il markup
     const articleMarkup = createMarkup(article);
+    // inserisco l'html creato nel containerEl in posizione beforeend
     containerEl.insertAdjacentHTML("beforeend", articleMarkup);
 });
 
-// con una funzione definisco il markup della news
-function createMarkup(article) {
-    
-    // creo un array di stringhe HTML per i badge dei tags, con un operatore ternario coloro i badge in base al testo contenuto
-    const tagsMarkup = article.tags.map(tag => `
-    <span class="badge ${
-        tag === 'geo' ? 'bg-success' : 
-        tag === 'tech' ? 'bg-primary' : 
-        tag === 'cucina' ? 'bg-danger' : 
-        tag === 'viaggi' ? 'bg-warning' : 
-        tag === 'arte' ? 'bg-info' : 'bg-light'
-    } p-2 fs-5">${tag}</span>`).join(''); // utilizzo il .join per eliminare le virgole della array generata dal ciclo map
+// itero per creare le opzioni dinamicamente
+articles.forEach(article => {
+    // itero gli attributi .tags
+    article.tags.forEach(tag => {
+        // applico la funzione createOption a ciascun tag
+        createOption(tag);
+    });
 
-    // return del template literal precedentemente creato in HTML/CSS
-    return `
-    <div class="container p-3 bg-light mt-4">
-        <div class="news_head d-flex justify-content-between">
-            <h2>${article.title}</h2>
-            <i class="fa-regular fa-bookmark" data-id="${article.id}"></i>
-        </div>
-        <div class="news_body">
-            <h5>${article.author}</h5>
-            <h6>${article.published}</h6>
-            <p>${article.content}</p>
-        </div>
-        <div class="news_img d-flex justify-content-center">
-            <img src="${article.image}" alt="${article.alt}">
-        </div>
-        <div class="news_tags mt-3 d-flex gap-2">${tagsMarkup}</div>
-    </div>
-    `;
-};
+    // aggiungo altri tag che non sono associati a una notizia specifica
+    const additionalTags = ["politica", "sport"];
 
-// inserisco il select in una costante
-const news_selection = document.getElementById('news_selection');
+    // itero gli attributi .tags
+    additionalTags.forEach(tag => {
+        // applico la funzione createOption a ciascun tag
+        createOption(tag);
+    });
+});
 
 // aggiungo un addEventListener('change') al select
 news_selection.addEventListener('change', function(){
@@ -131,97 +125,58 @@ news_selection.addEventListener('change', function(){
     };
 });
 
-// creo un array dedicata al menù select
-let optionList = [];
 
-// itero per creare le opzioni
-articles.forEach(article => {
-        
-    // itero attraverso l'array di tag per creare un'opzione separata per ciascun tag
-    article.tags.forEach(tag => {
-        // creo una condizione con valore booleano opposto per stabilire se l`array contiene o meno il tipo di tag 
-        if (!optionList.includes(tag)) {
-            // se non lo contiene pusha nella array l'opzione
-            optionList.push(tag);
-            // creo l'opzione
-            const optionNews = document.createElement("option");
-            // scrivo dentro l'opzione
-            optionNews.innerText = tag;
-            // collego al mio html l'opzione appena creata
-            news_selection.append(optionNews);
-        };
-    });
-    
-    // aggiungo altri tag che non sono associati a una notizia specifica
-    const additionalTags = ["politica", "sport"];
+// con una funzione definisco il markup della news
+function createMarkup(article) {   
+    // creo un array di stringhe HTML per i badge dei tags, con un operatore ternario coloro i badge in base al testo contenuto
+    const tagsMarkup = article.tags.map(tag => `
+    <span class="badge ${
+        tag === 'geo' ? 'bg-success' : 
+        tag === 'tech' ? 'bg-primary' : 
+        tag === 'cucina' ? 'bg-danger' : 
+        tag === 'viaggi' ? 'bg-warning' : 
+        tag === 'arte' ? 'bg-info' : 'bg-light'
+    } p-2 fs-5">${tag}</span>`).join(''); // utilizzo il .join per eliminare le virgole della array generata dal ciclo map
 
-    // itero attraverso l'array di tag per creare un'opzione separata per ciascun tag
-    additionalTags.forEach(tag => {
-        // se non è già incluso nella array principale di opzioni dinamiche
-        if (!optionList.includes(tag)) {
-            // pusho la nuova opzione
-            optionList.push(tag);
-            // creo l'opzione
-            const optionNews = document.createElement("option");
-            // scrivo dentro l'opzione
-            optionNews.innerText = tag;
-            // collego al mio html l'opzione appena creata
-            news_selection.append(optionNews);
-        };
-    });
-});
+    // return del template literal precedentemente creato in HTML/CSS
+    return `
+    <div class="container p-3 bg-light mt-4">
+        <div class="news_head d-flex justify-content-between">
+            <h2>${article.title}</h2>
+            <i class="fa-regular fa-bookmark" data-id="${article.id}"></i>
+        </div>
+        <div class="news_body">
+            <h5>${article.author}</h5>
+            <h6>${article.published}</h6>
+            <p>${article.content}</p>
+        </div>
+        <div class="news_img d-flex justify-content-center">
+            <img src="${article.image}" alt="${article.alt}">
+        </div>
+        <div class="news_tags mt-3 d-flex gap-2">${tagsMarkup}</div>
+    </div>
+    `;
+};
 
-// inserisco in costante il check-box
-const checkBox = document.getElementById('savedNews');
-
-// creo una costante per la classe dell'icona del bookmark
-const marked = document.querySelectorAll('.news_head i'); 
-
-// itero attraverso marked
-marked.forEach(bookmark => {
-    // aggiungo un event listener al click sull'icona
-    bookmark.addEventListener('click', function() {
-        // modifico la classe dell'icona al click su di essa
-        if (bookmark.classList.contains('fa-regular')) {
-            bookmark.classList.remove('fa-regular');
-            bookmark.classList.add('fa-solid');
-        };
-    });
-});
-
-// aggiungi un event listener al checkbox
-checkBox.addEventListener('change', function() {
-    // il checkbox è selezionato
-    if (checkBox.checked) {
-        console.log('Il checkbox è selezionato!');
-        
-        // nascondi i contenitori delle icone con la classe 'fa-solid'
-        marked.forEach(icon => {
-            if (icon.classList.contains('fa-regular')) {
-                // inserisco in const il container dell'icona
-                const container = icon.parentElement.parentElement;
-                container.classList.add('none');
-            }
-        });
-    // il checkbox non è selezionato
-    } else {
-        console.log('Il checkbox non è selezionato');
-        
-        // rimuovi la classe 'none' da tutti i contenitori delle icone
-        marked.forEach(icon => {
-            // inserisco in const il container dell'icona
-            const container = icon.parentElement.parentElement;
-            // rimuovo la classe 'none'
-            container.classList.remove('none');
-        });
+// funzione che crea le opzioni del select tramite i tag dei dati forniti
+function createOption(tag) {
+    // stabilisco se l'array non contiene già il tipo di tag
+    if (!optionList.includes(tag)) {
+        // se non lo contiene, pusho nell'array l'opzione
+        optionList.push(tag);
+        // creo l'opzione
+        const optionNews = document.createElement("option");
+        // scrivo dentro l'opzione
+        optionNews.innerText = tag;
+        // collego al mio select l'opzione appena creata
+        news_selection.append(optionNews);
     };
-});
-
+};
 
 /* 
-Approccio errato, me ne rendo conto. 
-Non riesco a scovare la logica per pushare le notizie nel array savedNews tramite id ricavato dal click sul bookmark.
-Inoltre sto facendo fatica a far coesistere i due filtri.
-Con il codice attuale se utilizzo i filtri in modo separato tutto sembra funzionare, quando inizio a combinare si rompe tutto.
-Nella fattispecie noto che ricreando il Markup tramite la selezione dei tag con news_selection non è più possibile utilizzare il """filtro""" del checkbox.
+Cambio il mio approccio all'esercizio: 
+    -non utilizzo più una array per le notizie salvate;
+    -aggiungo un attributo booleano agli oggetti della array di dati forniti;
+    -creo funzione comune che gestisce i comportamenti di entrambi i filtri;
+    -provo a snellire il codice creando piccole funzioni.
 */
