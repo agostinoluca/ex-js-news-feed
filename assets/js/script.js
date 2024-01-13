@@ -96,6 +96,22 @@ containerEl.addEventListener('click', function (event) {
     // recupero il click con target
     const clickedElement = event.target;
     console.log(clickedElement);
+
+    // verifico se l'elemento cliccato è un icona fa-bookmark
+    if (clickedElement.classList.contains('fa-bookmark')) {
+        // recupero l'id dell'elemento cliccato
+        const articleId = clickedElement.getAttribute('data-id');
+        // con il metodo find itero in articles fino a trovare coincidenza tra l'id recuperato e quello della array 
+        const article = articles.find(article => article.id.toString() === articleId);
+
+        if (article) {
+            // inverto il valore booleano di saved
+            article.saved = !article.saved;
+
+            // con un operatore ternario modifico la classe della I in condizione con il valore saved
+            editBookmarkClass(clickedElement, article.saved);
+        };
+    };
 });
 
 
@@ -182,7 +198,7 @@ function filterArticles() {
 
             // se ci sono notizie per il tag selezionato o se rimaniamo su "Tutti i tags", il valore della variabile diventa vera
             newsAvailable = true;
-        }
+        };
     });
 
 
@@ -193,7 +209,7 @@ function filterArticles() {
             <div class="container mt-3 p-0">
                 <span class="noNews">No News Available.</span>
             </div> 
-        `)
+        `);
     };
 };
 
@@ -203,4 +219,4 @@ function editBookmarkClass(element, saved) {
     const solidClass = 'fa-solid fa-bookmark';
 
     element.classList.value = saved ? solidClass : regularClass;
-}
+};
