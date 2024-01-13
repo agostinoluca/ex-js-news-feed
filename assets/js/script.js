@@ -150,11 +150,40 @@ function createOption(tag) {
 function filterArticles() {
     // creo una variabile per leggere il valore del select
     const valueType = news_selection.value;
-    console.log(valueType);
 
     // creo una variabile per verificare se il checkbox è selezionato
     const checkboxChecked = checkBox.checked;
-    console.log(checkboxChecked);
+
+    // svuoto l'HTML del container
+    containerEl.innerHTML = '';
+
+    // richiamo la variabile globale con valore booleano falso
+    let newsAvailable = false;
+
+    // itero per ogni articolo nell'array
+    articles.forEach(article => {
+        // verifico se l'articolo deve essere visualizzato dopo la selezione del select
+        const selectCondition = valueType === '' || article.tags.includes(valueType);
+        // con checkbox selezionato visualizzo solo article.saved true, altrimenti saranno tutti true
+        const checkboxCondition = checkboxChecked ? article.saved : true;
+        console.log(checkboxCondition);
+
+        // se entrambe le condizioni sono vere, creo il markup dell'articolo
+        if (selectCondition && checkboxCondition) {
+            const articleMarkup = createMarkup(article);
+            containerEl.insertAdjacentHTML("beforeend", articleMarkup);
+
+            // aggiorno dinamicamente la classe dell'icona del bookmark per mantenerne la memoria durante le operazioni in pagina
+            const bookmarkIcon = containerEl.querySelector(`[data-id="${article.id}"]`);
+            if (bookmarkIcon) {
+                // richiamo la funzione per modificare le classi delle icone del bookmark
+                editBookmarkClass(bookmarkIcon, article.saved);
+            };
+
+            // se ci sono notizie per il tag selezionato o se rimaniamo su "Tutti i tags", il valore della variabile diventa vera
+            newsAvailable = true;
+        }
+    });
 
 
     // se nessuna notizia è disponibile, aggiungo la scritta "No News Available"
@@ -164,5 +193,14 @@ function filterArticles() {
             <div class="container mt-3 p-0">
                 <span class="noNews">No News Available.</span>
             </div> 
-        `)};
+        `)
+    };
 };
+
+// funzione utile a modificare le classi delle icone di bookmark
+function editBookmarkClass(element, saved) {
+    const regularClass = 'fa-regular fa-bookmark';
+    const solidClass = 'fa-solid fa-bookmark';
+
+    element.classList.value = saved ? solidClass : regularClass;
+}
