@@ -136,7 +136,7 @@ function createMarkup(article) {
         </div>
         <div class="news_body">
             <h5>${article.author}</h5>
-            <h6>${article.published}</h6>
+            <h6>${reverseDate(article.published)}</h6>
             <p>${article.content}</p>
         </div>
         <div class="news_img d-flex justify-content-center">
@@ -219,4 +219,14 @@ function editBookmarkClass(element, saved) {
     const solidClass = 'fa-solid fa-bookmark';
 
     element.classList.value = saved ? solidClass : regularClass;
+};
+
+// Funzione che inverte l'ordine della data
+function reverseDate(date) {
+    /* 
+        - Con split ('-') spezzo la data dove c'è il trattino e inserisco in una nuova array
+        - Con reverse inverto l'ordine delle stringhe ottenute
+        - Con join ('-') reinserisco i trattini tra i valori della array
+    */
+    return date.split('-').reverse().join('-');
 };
