@@ -115,18 +115,11 @@ containerEl.addEventListener('click', function (event) {
 });
 
 
-// con una funzione definisco il markup della news
-function createMarkup(article) {   
-    // creo un array di stringhe HTML per i badge dei tags, con un operatore ternario coloro i badge in base al testo contenuto
-    const tagsMarkup = article.tags.map(tag => `
-    <span class="badge ${
-        tag === 'geo' ? 'bg-success' : 
-        tag === 'tech' ? 'bg-primary' : 
-        tag === 'cucina' ? 'bg-danger' : 
-        tag === 'viaggi' ? 'bg-warning' : 
-        tag === 'arte' ? 'bg-info' : 'bg-light'
-    } p-2 fs-5">${tag}</span>`).join(''); // utilizzo il .join per eliminare le virgole della array generata dal ciclo map
-
+// funzione che definisce il markup della news
+function createMarkup(article) {  
+    
+    const tagsMarkup = colorOption(article);
+    
     // return del template literal precedentemente creato in HTML/CSS
     return `
     <div class="container p-3 bg-light mt-4">
@@ -147,6 +140,8 @@ function createMarkup(article) {
     `;
 };
 
+
+
 // funzione che crea le opzioni del select tramite i tag dei dati forniti
 function createOption(tag) {
     // stabilisco se l'array non contiene già il tipo di tag
@@ -161,6 +156,25 @@ function createOption(tag) {
         news_selection.append(optionNews);
     };
 };
+
+
+
+// funzione che colora i badge dei tags 
+function colorOption(article) {
+        // creo un array di stringhe HTML per i badge dei tags, con un operatore ternario coloro i badge in base al testo contenuto
+        const tagsMarkup = article.tags.map(tag => `
+        <span class="badge ${
+            tag === 'geo' ? 'bg-success' : 
+            tag === 'tech' ? 'bg-primary' : 
+            tag === 'cucina' ? 'bg-danger' : 
+            tag === 'viaggi' ? 'bg-warning' : 
+            tag === 'arte' ? 'bg-info' : 'bg-light'
+        } p-2 fs-5">${tag}</span>`).join(''); // utilizzo il .join per eliminare le virgole della array generata dal ciclo map
+        
+        return tagsMarkup;
+};
+
+
 
 // funzione che gestisce il filtro per il select e il checkbox
 function filterArticles() {
@@ -180,6 +194,7 @@ function filterArticles() {
     articles.forEach(article => {
         // verifico se l'articolo deve essere visualizzato dopo la selezione del select
         const selectCondition = valueType === '' || article.tags.includes(valueType);
+
         // con checkbox selezionato visualizzo solo article.saved true, altrimenti saranno tutti true
         const checkboxCondition = checkboxChecked ? article.saved : true;
         console.log(checkboxCondition);
@@ -201,7 +216,6 @@ function filterArticles() {
         };
     });
 
-
     // se nessuna notizia è disponibile, aggiungo la scritta "No News Available"
     if (!newsAvailable) {
         // Inserisco un template literal preparato in HTML-CSS
@@ -213,6 +227,8 @@ function filterArticles() {
     };
 };
 
+
+
 // funzione utile a modificare le classi delle icone di bookmark
 function editBookmarkClass(element, saved) {
     const regularClass = 'fa-regular fa-bookmark';
@@ -221,7 +237,9 @@ function editBookmarkClass(element, saved) {
     element.classList.value = saved ? solidClass : regularClass;
 };
 
-// Funzione che inverte l'ordine della data
+
+
+// funzione che inverte l'ordine della data
 function reverseDate(date) {
     /* 
         - Con split ('-') spezzo la data dove c'è il trattino e inserisco in una nuova array
