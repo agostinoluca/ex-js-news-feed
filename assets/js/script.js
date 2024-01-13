@@ -61,7 +61,7 @@ const checkBox = document.getElementById('savedNews');
 // creo un array dedicata al menù select
 const optionList = [];
 
-// con un'iterazione stampo gli articoli in pagina
+// con un'iterazione stampo gli articoli all'avvio della pagina
 articles.forEach(article => {
     // richiamo la funzione per il markup
     const articleMarkup = createMarkup(article);
@@ -87,42 +87,15 @@ articles.forEach(article => {
     });
 });
 
-// aggiungo un addEventListener('change') al select
-news_selection.addEventListener('change', function(){
+// aggiungo un event listener ('change') al select ed al checkbox con la medesima funzione
+news_selection.addEventListener('change', filterArticles);
+checkBox.addEventListener('change', filterArticles);
 
-    // creo una variabile per leggere la value del select
-    let valueType = news_selection.value;
-
-    // svuoto l`html del container
-    containerEl.innerHTML = '';
-
-    // richiamo la variabile globale con valore booleano falso
-    newsAvailable = false;
-    
-    // con un for loop creo un box per ogni oggetto della array
-    articles.forEach(article => {
-        
-        // la condizione filtra i tags identici al select oppure il campo vuoto dell'opzione "Tutti i tags"
-        if (valueType === '' || article.tags.includes(valueType)) {
-
-            // richiamo la funzione per creare i box delle notizie selezionate dal select
-            const articleMarkup = createMarkup(article);
-            containerEl.insertAdjacentHTML("beforeend", articleMarkup);
-
-            // se esistono notizie per il tag selezionato o se rimaniamo su "Tutti i tags", il valore della variabile diventa vera
-            newsAvailable = true;
-        };
-    });
-    
-    // se nessuna notizia è disponibile, aggiungo la scritta "No News Available"
-    if (!newsAvailable) {
-        // inserisco un template literal preparato in HTML-CSS
-        containerEl.insertAdjacentHTML("beforeend", `
-            <div class="container mt-3 p-0">
-                <span class="noNews">No News Available.</span>
-            </div> 
-        `);
-    };
+// aggiungo un listener sulle icone del bookmark
+containerEl.addEventListener('click', function (event) {
+    // recupero il click con target
+    const clickedElement = event.target;
+    console.log(clickedElement);
 });
 
 
@@ -173,10 +146,23 @@ function createOption(tag) {
     };
 };
 
-/* 
-Cambio il mio approccio all'esercizio: 
-    -non utilizzo più una array per le notizie salvate;
-    -aggiungo un attributo booleano agli oggetti della array di dati forniti;
-    -creo funzione comune che gestisce i comportamenti di entrambi i filtri;
-    -provo a snellire il codice creando piccole funzioni.
-*/
+// funzione che gestisce il filtro per il select e il checkbox
+function filterArticles() {
+    // creo una variabile per leggere il valore del select
+    const valueType = news_selection.value;
+    console.log(valueType);
+
+    // creo una variabile per verificare se il checkbox è selezionato
+    const checkboxChecked = checkBox.checked;
+    console.log(checkboxChecked);
+
+
+    // se nessuna notizia è disponibile, aggiungo la scritta "No News Available"
+    if (!newsAvailable) {
+        // Inserisco un template literal preparato in HTML-CSS
+        containerEl.insertAdjacentHTML("beforeend", `
+            <div class="container mt-3 p-0">
+                <span class="noNews">No News Available.</span>
+            </div> 
+        `)};
+};
