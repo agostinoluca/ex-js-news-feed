@@ -115,7 +115,14 @@ containerEl.addEventListener('click', function (event) {
 });
 
 
+
+
 // funzione che definisce il markup della news
+/**
+ * 
+ * @param {Object} article -> l'oggetto article contenente le informazioni necessarie per creare il markup della news
+ * @returns {String} -> un template literals contenente il markup della notizia
+ */
 function createMarkup(article) {  
     
     const tagsMarkup = colorOption(article);
@@ -143,6 +150,10 @@ function createMarkup(article) {
 
 
 // funzione che crea le opzioni del select tramite i tag dei dati forniti
+/**
+ * 
+ * @param {String} tag
+ */
 function createOption(tag) {
     // stabilisco se l'array non contiene già il tipo di tag
     if (!optionList.includes(tag)) {
@@ -160,6 +171,11 @@ function createOption(tag) {
 
 
 // funzione che colora i badge dei tags 
+/**
+ * 
+ * @param {Object} article -> legge l'oggetto e i valori dei suoi attributi
+ * @returns {String} -> restituisce un template literal con un operatore ternario che definisce il colore del tag in base al valore dell'attributo
+ */
 function colorOption(article) {
         // creo un array di stringhe HTML per i badge dei tags, con un operatore ternario coloro i badge in base al testo contenuto
         const tagsMarkup = article.tags.map(tag => `
@@ -230,6 +246,11 @@ function filterArticles() {
 
 
 // funzione utile a modificare le classi delle icone di bookmark
+/**
+ * 
+ * @param {HTMLElement} element -> l'elemento HTML dell`icona da modificare
+ * @param {Boolean} saved -> il valore booleano di saved
+ */
 function editBookmarkClass(element, saved) {
     const regularClass = 'fa-regular fa-bookmark';
     const solidClass = 'fa-solid fa-bookmark';
@@ -240,6 +261,11 @@ function editBookmarkClass(element, saved) {
 
 
 // funzione che inverte l'ordine della data
+/**
+ * 
+ * @param {string} date -> una stringa contenente una data con cifre separate da un trattino (-)
+ * @returns {string} -> una nuova stringa con cifre invertite e trattini divisori (da 00-00-0000 a 0000-00-00 o viceversa)
+ */
 function reverseDate(date) {
     /* 
         - Con split ('-') spezzo la data dove c'è il trattino e inserisco in una nuova array
