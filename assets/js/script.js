@@ -112,6 +112,8 @@ containerEl.addEventListener('click', function (event) {
             editBookmarkClass(clickedElement, article.saved);
         };
     };
+    // chiamo la funzione ad ogni click sull'icona di bookmark per aggiornare la visualizzazione delle news
+    filterArticles();
 });
 
 
